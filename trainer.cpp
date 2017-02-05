@@ -10,22 +10,24 @@ float Trainer::batchTrainingError = 0.0;
 void Trainer::train(Network *network){
 	imageloader::openFile();
 	for(int batchCount=1; batchCount<= (HyperParams::numberOfInputs / HyperParams::batchSize);batchCount++){
+		network->cleanForNextBatch();
+
 		for(int count=0; count<HyperParams::batchSize; count++){
 			network->cleanForNextInput();
 			imageloader::loadNextImage();
 			network->fetchInput();
 			network->feedFoward();
 			updateErrorCache(network);
+			network->setError(outputErrorCache);
+			network->backProp();
 		}
 
-		calcAverageError();
-		network->setError(outputErrorCache);
+		// calcAverageError();
 		calcAverageBatchError();
 		logBatchError(batchCount);
-		network->backProp();
 		network->fixWeight();
 		network->fixBias();
-		cleanError();
+		cleanBatchError();
 	}
 
 	imageloader::closeFile();
@@ -36,12 +38,13 @@ void Trainer::updateErrorCache(Network *network){
 	float caseTrainingError  = 0.0;
 	for(int i=0;i<10;i++){
 		if(i == imageloader::getLabel()){
-			// printf("i = %d, output = %f%%\n",i,network->getOutput(i));
-			outputErrorCache[i] += network->getOutput(i) - 1;
+			// if(i==1)
+				// printf("i = %d, output = %f%%\n",i,network->getOutput(i));
+			outputErrorCache[i] = network->getOutput(i) - 1;
 			caseTrainingError += HyperParams::costFunction(network->getOutput(i), 1);
 		}
 		else{
-			outputErrorCache[i] += network->getOutput(i) - 0;			
+			outputErrorCache[i] = network->getOutput(i) - 0;			
 			caseTrainingError += HyperParams::costFunction(network->getOutput(i), 0);
 		}
 	}
@@ -50,11 +53,11 @@ void Trainer::updateErrorCache(Network *network){
 	batchTrainingError += caseTrainingError;
 }
 
-void Trainer::calcAverageError(){
-	for(int i=0; i<10; i++){
-		outputErrorCache[i] /= HyperParams::batchSize;
-	}
-}
+// void Trainer::calcAverageError(){
+// 	for(int i=0; i<10; i++){
+// 		outputErrorCache[i] /= HyperParams::batchSize;
+// 	}
+// }
 
 void Trainer::calcAverageBatchError(){
 	batchTrainingError /= HyperParams::batchSize;
@@ -66,8 +69,6 @@ void Trainer::logBatchError(int batchCount){
 
 
 
-void Trainer::cleanError(){
-	for(int i=0; i<!0; i++)
-		outputErrorCache[i] = 0;
+void Trainer::cleanBatchError(){
 	batchTrainingError = 0.0;
 }

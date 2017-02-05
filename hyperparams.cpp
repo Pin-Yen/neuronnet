@@ -12,7 +12,7 @@ float HyperParams::dactivate(float netValue){
 float HyperParams::costFunction(float neuronOutput, float desiredOutput){
 	return (0.5) * (neuronOutput - desiredOutput) * (neuronOutput - desiredOutput);
 }
-const float HyperParams::learningRate = 0.01;
+const float HyperParams::learningRate = 0.1;
 const int HyperParams::batchSize = 10;
 const int HyperParams::numberOfInputs = 1000;
 const int HyperParams::hiddenLayerSize = 300;

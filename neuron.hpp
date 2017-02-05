@@ -37,15 +37,19 @@ public:
 
   /* called by Layer::fetchInput(), 
    * sets the input value of the input neurons */
-  void setInput(unsigned char input);
+  void setInput(float input);
 
   /* indirectly called by Network::setError()
    * set error of output neurons,*/ 
   void setDeltaNext(int error);
 
   /* Should be called before feeding a new input.
-   * reset weightError and deltaNext */
+   * reset deltaNext and netValue */
   void cleanForNextInput();
+
+  /* Should be called before each new batch,
+   * resets weigthError and Bias Error*/
+  void cleanForNextBatch();
 
 private:
   /*calculate net value, called from feedfoward()*/
@@ -63,16 +67,20 @@ private:
   /*calculates the error of weight*/
   void calcWeightError();
 
+  /* calculates bias Error*/
+  void calcBiasError();
 
   /* the following members should be initialized */  
   int previousLayerSize, nextLayerSize;
   /* the following members should be initialized */  
+
 
   float netValue , output;
   float bias;
   float delta, deltaNext;
   float weight[LAYERSIZE_MAX];
   float weightError[LAYERSIZE_MAX];
+  float biasError;
   Neuron *previousLayerNeurons[LAYERSIZE_MAX];
   Neuron *nextLayerNeurons[LAYERSIZE_MAX];
 };

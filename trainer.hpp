@@ -18,7 +18,7 @@ private:
 
 	/* calculates the average error of each input CASE,
 	 * and adds to batch error */
-	static void calcAverageError();
+	// static void calcAverageError();
 
 	/* calculates the average error of each BATCH 
 	 * called at the end of each batch learning process */
@@ -29,6 +29,6 @@ private:
 
 	/* cleans the outputErrorCache and batchError,
 	 * called at the end of each batch cycle */
-	static void cleanError();
+	static void cleanBatchError();
 
 };

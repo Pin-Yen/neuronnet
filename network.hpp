@@ -19,6 +19,9 @@ public:
 	 * cleans of the mess done by the previous input*/
 	void cleanForNextInput();
 
+	/* called before each new batch */
+	void cleanForNextBatch();
+
 	/* makes input layer fetch input from imageloader */
 	void fetchInput();
 

@@ -1,4 +1,5 @@
 class Neuron;
+
 #define LAYERSIZE_MAX 28*28
 class Layer
 {
@@ -16,6 +17,9 @@ public:
 
   /* cleanup for next input*/
   void cleanForNextInput();
+
+  /* cleanup for next batch*/
+  void cleanForNextBatch();
 
   /* fetch input from imageloader*/
   void fetchInput();

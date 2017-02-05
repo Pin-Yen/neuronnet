@@ -26,6 +26,11 @@ void Layer::cleanForNextInput(){
     neurons[i]->cleanForNextInput();
 }
 
+void Layer::cleanForNextBatch(){
+  for(int i=0; i<layerSize; i++)
+    neurons[i]->cleanForNextBatch();  
+}
+
 void Layer::fetchInput(){
   for(int r=0;r<IMAGE_HEIGHT;r++){
     for(int c=0; c<IMAGE_WIDTH; c++){

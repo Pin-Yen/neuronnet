@@ -35,6 +35,12 @@ void Network::cleanForNextInput(){
 	hiddenLayer->cleanForNextInput();
 	outputLayer->cleanForNextInput();
 }
+
+void Network::cleanForNextBatch(){
+	inputLayer->cleanForNextBatch();
+	hiddenLayer->cleanForNextBatch();
+	outputLayer->cleanForNextBatch();	
+}
 void Network::fetchInput(){
 	inputLayer->fetchInput();
 }

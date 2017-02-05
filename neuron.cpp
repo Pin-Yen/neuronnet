@@ -9,6 +9,7 @@ Neuron::Neuron(){
   output = 0;
   for(int i=0; i<LAYERSIZE_MAX;i++)
     weightError[i] = 0;
+  biasError = 0;
 }
 
   /* initialize weight and bias to a random value*/
@@ -59,6 +60,7 @@ void Neuron::backProp(){
   calcDelta();
   backPass();
   calcWeightError();
+  calcBiasError();
 }
 
 void Neuron::fixWeight(){
@@ -68,7 +70,7 @@ void Neuron::fixWeight(){
 }
 
 void Neuron::fixBias(){
-  bias +=  delta*HyperParams::learningRate;
+  bias -=  biasError*HyperParams::learningRate;
 }
 
 float Neuron::getOutput(){
@@ -79,8 +81,8 @@ void Neuron::addDeltaNext(float d, float weight){
   deltaNext += d*weight;
 }
 
-void Neuron::setInput(unsigned char input){
-  netValue = (float) input;
+void Neuron::setInput(float input){
+  netValue = input;
 }
 
 void Neuron::setDeltaNext(int error){
@@ -88,13 +90,16 @@ void Neuron::setDeltaNext(int error){
 }
 
   /* Should be called before feeding a new input.
-   * reset weightError and deltaNext */
+   * reset deltaNext and netvalue */
 void Neuron::cleanForNextInput(){
-  for(int i=0; i<previousLayerSize; i++){
-    weightError[i] = 0;
-  }
   deltaNext = 0;
   netValue = -bias;
+}
+
+void Neuron::cleanForNextBatch(){
+  for(int i=0;i<previousLayerSize;i++)
+    weightError[i] = 0;
+  biasError = 0;
 }
 
   /*calculate net value, called from feedfoward()*/
@@ -128,4 +133,7 @@ void Neuron::calcWeightError(){
   for(int i=0;i<previousLayerSize;i++){
     weightError[i] += delta * previousLayerNeurons[i]->getOutput();
   }
+}
+void Neuron::calcBiasError(){
+  biasError -= delta;
 }
