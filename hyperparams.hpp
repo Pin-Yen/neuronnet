@@ -1,13 +1,15 @@
 class HyperParams
 {
 public:
-	static float activate(float netValue);
+	static double activate(double netValue);
 
-  static float dactivate(float netValue);
+  static double dactivate(double netValue);
 
-  static float costFunction(float neuronOutput, float desiredOutput);
-  static const float learningRate;
+  static double costFunction(double neuronOutput, double desiredOutput);
+  static const double learningRate;
   static const int batchSize;
   static const int numberOfInputs;
   static const int hiddenLayerSize;
+  static const int repeatTimes;
+  static const int testSize;
 };

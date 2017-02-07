@@ -39,15 +39,17 @@ public:
   void connectNextLayer(Layer *nextlayer);
 
   /* set Error value of each output neuron */
-  void setError(float errorArr[10]);
+  void setError(double errorArr[10]);
 
-  void fixWeight();
-  void fixBias();
+  /* fix weight and bias */
+  void fix();
 
   /* returns a pointer of a neuron in this layer,
    * index: index in layer */
   Neuron* getNeuronPtr(int index);
   int getLayerSize();
+
+  int getAnswer();
 
 private:
   Neuron *neurons[LAYERSIZE_MAX];

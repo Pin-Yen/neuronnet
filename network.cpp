@@ -41,11 +41,9 @@ void Network::cleanForNextBatch(){
 	hiddenLayer->cleanForNextBatch();
 	outputLayer->cleanForNextBatch();	
 }
-void Network::fetchInput(){
-	inputLayer->fetchInput();
-}
 
 void Network::feedFoward(){
+	inputLayer->fetchInput();
 	inputLayer->feedFoward();
 	hiddenLayer->feedFoward();
 	outputLayer->feedFoward();
@@ -56,23 +54,20 @@ void Network::backProp(){
 	hiddenLayer->backProp();
 	inputLayer->backProp();
 }
-
-void Network::fixWeight(){
-	outputLayer->fixWeight();
-	hiddenLayer->fixWeight();
-	inputLayer->fixWeight();
+void Network::fix(){
+	outputLayer->fix();
+	hiddenLayer->fix();
+	inputLayer->fix();
 }
 
-void Network::fixBias(){
-	outputLayer->fixBias();
-	hiddenLayer->fixBias();
-	inputLayer->fixBias();
-}
-
-float Network::getOutput(int index){
+double Network::getOutput(int index){
 	return outputLayer->getNeuronPtr(index)->getOutput();
 }
 
-void Network::setError(float errorArr[10]){
+void Network::setError(double errorArr[10]){
 	outputLayer->setError(errorArr);
+}
+
+int Network::getAnswer(){
+	return outputLayer->getAnswer();
 }

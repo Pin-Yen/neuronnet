@@ -22,26 +22,24 @@ public:
 	/* called before each new batch */
 	void cleanForNextBatch();
 
-	/* makes input layer fetch input from imageloader */
-	void fetchInput();
-
 	void feedFoward();
 
 	void backProp();
 
-	/* fix weight of each synapse by gradient descent*/
-	void fixWeight();
-
-	void fixBias();
+	/* fix weight and bias of each synapse by gradient descent*/
+	void fix();
 	
 	/* returns the output value of an output neuron
 	 * index: index of neuron in the output layer
 	 * called at multiple place by the Network class*/
-	float getOutput(int index);
+	double getOutput(int index);
 
 	/* set ErrorValue to the output neuron, 
 	 * called once a batch */
-	void setError(float errorArr[10]);
+	void setError(double errorArr[10]);
+
+	/* get NN prediction */
+	int getAnswer();
 
 private:
 	Layer *inputLayer, *hiddenLayer, *outputLayer;

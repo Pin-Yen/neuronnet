@@ -1,18 +1,20 @@
 #include <math.h>
 #include "hyperparams.hpp"
 
-float HyperParams:: activate(float netValue){
+double HyperParams:: activate(double netValue){
 	return 1/(1.0+exp(-netValue));
 }
 
-float HyperParams::dactivate(float netValue){
+double HyperParams::dactivate(double netValue){
 	return activate(netValue)*(1-activate(netValue));
 }
 
-float HyperParams::costFunction(float neuronOutput, float desiredOutput){
+double HyperParams::costFunction(double neuronOutput, double desiredOutput){
 	return (0.5) * (neuronOutput - desiredOutput) * (neuronOutput - desiredOutput);
 }
-const float HyperParams::learningRate = 0.1;
-const int HyperParams::batchSize = 10;
-const int HyperParams::numberOfInputs = 1000;
-const int HyperParams::hiddenLayerSize = 300;
+const double HyperParams::learningRate = 0.01;
+const int HyperParams::batchSize = 15;
+const int HyperParams::numberOfInputs = 5000;
+const int HyperParams::hiddenLayerSize = 120;
+const int HyperParams::repeatTimes = 30;
+const int HyperParams::testSize = 1000;

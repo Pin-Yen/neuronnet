@@ -25,23 +25,21 @@ public:
 
   void backProp();
 
-  void fixWeight();
+  void fix();
 
-  void fixBias();
-
-  float getOutput();
+  double getOutput();
 
   /* called by neurons of the next layer, in backpass()
    * passively collecting the delta of the next layer. */
-  void addDeltaNext(float d, float weight);
+  void addDeltaNext(double d, double weight);
 
   /* called by Layer::fetchInput(), 
    * sets the input value of the input neurons */
-  void setInput(float input);
+  void setInput(double input);
 
   /* indirectly called by Network::setError()
    * set error of output neurons,*/ 
-  void setDeltaNext(int error);
+  void setDeltaNext(double error);
 
   /* Should be called before feeding a new input.
    * reset deltaNext and netValue */
@@ -75,12 +73,12 @@ private:
   /* the following members should be initialized */  
 
 
-  float netValue , output;
-  float bias;
-  float delta, deltaNext;
-  float weight[LAYERSIZE_MAX];
-  float weightError[LAYERSIZE_MAX];
-  float biasError;
+  double netValue , output;
+  double bias;
+  double delta, deltaNext;
+  double weight[LAYERSIZE_MAX];
+  double weightError[LAYERSIZE_MAX];
+  double biasError;
   Neuron *previousLayerNeurons[LAYERSIZE_MAX];
   Neuron *nextLayerNeurons[LAYERSIZE_MAX];
 };

@@ -7,7 +7,7 @@
 #define IMAGE_FILE_NAME "trainimages"
 #define LABEL_FILE_NAME "trainlabels"
 #define IMAGE_WIDTH 28
-#define IMGE_HEIGHT 28
+#define IMAGE_HEIGHT 28
 
 int imageloader::imageCount = 0;
 unsigned char imageloader::pixels[IMAGE_HEIGHT][IMAGE_WIDTH] ={{0}};
@@ -15,8 +15,8 @@ unsigned char imageloader::label = 0;
 FILE *imageloader::imageFile = NULL;
 FILE *imageloader::labelFile = NULL;
 
-unsigned char imageloader::getPixel(int row, int col){
-	return pixels[row][col];
+double imageloader::getPixel(int row, int col){
+	return ((double)pixels[row][col])/255;
 }
 
 void imageloader::openFile(){
@@ -41,7 +41,7 @@ int imageloader::loadNextImage(){
 	/* read pixels from file to buffer, then from buffer to imageloader::pixels */
 	fseek(imageFile,IMAGE_FILE_HEADER_SIZE + IMAGE_WIDTH*IMAGE_HEIGHT*imageCount,SEEK_SET);
 	unsigned char buffer[IMAGE_HEIGHT*IMAGE_WIDTH];
-	fread(buffer,sizeof(unsigned char),IMAGE_WIDTH*IMAGE_HEIGHT,imageFile);
+	int i =fread(buffer,sizeof(unsigned char),IMAGE_WIDTH*IMAGE_HEIGHT,imageFile);
 	for(int r=0;r<IMAGE_HEIGHT;r++){
 		for(int c=0;c<IMAGE_WIDTH;c++){
 			pixels[r][c] = buffer[r*IMAGE_HEIGHT+c];
@@ -52,8 +52,10 @@ int imageloader::loadNextImage(){
 	fseek(labelFile,LABEL_FILE_HEADER_SIZE + imageCount,SEEK_SET);
 	int success = fread(&label,sizeof(unsigned char),1,labelFile);
   
-	if(success == 0)
+	if(success == 0){
 		return 0;
+		assert(0);
+	}
 	else{
 		imageCount++;
 		return 1;
@@ -62,4 +64,8 @@ int imageloader::loadNextImage(){
 
 unsigned char imageloader::getLabel(){
 	return label;
+}
+
+void imageloader::rewind(int imagesBack){
+	imageCount -= imagesBack;
 }

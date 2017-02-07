@@ -16,10 +16,10 @@ Neuron::Neuron(){
 void Neuron::initialize(){
     /*initialize weight*/
   for(int i=0;i<previousLayerSize;i++)
-    weight[i] = Utils::randFloat();
+    weight[i] = Utils::randdouble();
 
     /*initialize bias*/
-  bias = Utils::randFloat();
+  bias = Utils::randdouble();
 }
 
 void Neuron::connectPreviousLayer(Layer *previousLayer){
@@ -63,29 +63,26 @@ void Neuron::backProp(){
   calcBiasError();
 }
 
-void Neuron::fixWeight(){
+void Neuron::fix(){
   for(int i=0;i<previousLayerSize;i++){
-    weight[i] += -weightError[i] * HyperParams::learningRate;
+    weight[i] -= weightError[i] * HyperParams::learningRate;
   }
+ bias -=  biasError*HyperParams::learningRate;
 }
 
-void Neuron::fixBias(){
-  bias -=  biasError*HyperParams::learningRate;
-}
-
-float Neuron::getOutput(){
+double Neuron::getOutput(){
   return output;
 }
 
-void Neuron::addDeltaNext(float d, float weight){
+void Neuron::addDeltaNext(double d, double weight){
   deltaNext += d*weight;
 }
 
-void Neuron::setInput(float input){
+void Neuron::setInput(double input){
   netValue = input;
 }
 
-void Neuron::setDeltaNext(int error){
+void Neuron::setDeltaNext(double error){
   deltaNext =error;
 }
 

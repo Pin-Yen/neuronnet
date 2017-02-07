@@ -43,12 +43,14 @@ void Layer::feedFoward(){
   for(int i=0;i<layerSize;i++){
     neurons[i]->feedFoward();
   }
+  printf("");
 }
 
 void Layer::backProp(){
   for(int i=0;i<layerSize;i++){
     neurons[i]->backProp();
   }
+  printf("");
 }
 
 void Layer::connectPreviousLayer(Layer *previousLayer){
@@ -63,23 +65,18 @@ void Layer::connectNextLayer(Layer *nextlayer){
   }
 }
 
-void Layer::setError(float errorArr[10]){
+void Layer::setError(double errorArr[10]){
   for(int i=0; i<10; i++){
     neurons[i]->setDeltaNext(errorArr[i]);
   }
 }
 
-void Layer::fixWeight(){
-  for(int i=0;i<layerSize;i++){
-    neurons[i]->fixWeight();
-  }
+
+void Layer::fix(){
+  for(int i=0;i<layerSize;i++)
+    neurons[i]->fix();
 }
 
-void Layer::fixBias(){
-  for(int i=0;i<layerSize;i++){
-    neurons[i]->fixBias();
-  }
-}
 
 Neuron* Layer::getNeuronPtr(int index){
   return neurons[index];
@@ -87,4 +84,16 @@ Neuron* Layer::getNeuronPtr(int index){
 
 int Layer::getLayerSize(){
   return layerSize;
+}
+
+int Layer::getAnswer(){
+  double highest = 0;
+  int answer = -1;
+  for(int i=0;i<layerSize;i++){
+    if(neurons[i]->getOutput() > highest){
+      highest = neurons[i]->getOutput();
+      answer = i;
+    }
+  }
+  return answer;
 }

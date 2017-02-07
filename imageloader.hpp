@@ -8,12 +8,14 @@ public:
 	imageloader();
 	~imageloader();
 
-	static unsigned char getPixel(int row, int col);
+	static double getPixel(int row, int col);
 	static int loadNextImage();
 	static unsigned char getLabel();
 	static void openFile();
 	static void closeFile();
 	static int imageCount; 
+	static void rewind(int imagesBack);
+
 private:
 	static unsigned char pixels[IMAGE_HEIGHT][IMAGE_WIDTH];
 	static unsigned char label;
